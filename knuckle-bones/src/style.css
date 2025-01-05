@@ -30,6 +30,14 @@ li {
     padding-top: 50px;
 }
 
+.table-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 td {
     border: 1px solid;
+    height: 40px;
+    width: 40px;
   }
