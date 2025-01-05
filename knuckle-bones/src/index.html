@@ -26,7 +26,7 @@
             <div class="user">
                 <div>
                     <h3>Player 1</h3>
-                    <h3>0</h3>
+                    <h3 id="p1-score">0</h3>
                 </div>
                 <div class="display">
                     <h2>DICE</h2>
@@ -37,46 +37,46 @@
         <div class="table-container">
             <table class="p1-table">
                 <tr>
-                    <td onclick="insertDie(0)"></td>
-                    <td onclick="insertDie(1)"></td>
-                    <td onclick="insertDie(2)"></td>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
                 </tr>
                 <tr>
-                    <td onclick="insertDie(0)"></td>
-                    <td onclick="insertDie(1)"></td>
-                    <td onclick="insertDie(2)"></td>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
                 </tr>
                 <tr>
-                    <td onclick="insertDie(0)"></td>
-                    <td onclick="insertDie(1)"></td>
-                    <td onclick="insertDie(2)"></td>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
                 </tr>
                 <tr class="headers">
-                    <th>total</th>
-                    <th>total</th>
-                    <th>total</th>
+                    <th>0</th>
+                    <th>0</th>
+                    <th>0</th>
                 </tr>
             </table>
             <table class="p2-table">
                 <tr class="headers">
-                    <th>total</th>
-                    <th>total</th>
-                    <th>total</th>
+                    <th>0</th>
+                    <th>0</th>
+                    <th>0</th>
                 </tr>
                 <tr>
-                    <td onclick="insertDie(0)"></td>
-                    <td onclick="insertDie(1)"></td>
-                    <td onclick="insertDie(2)"></td>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
                 </tr>
                 <tr>
-                    <td onclick="insertDie(0)"></td>
-                    <td onclick="insertDie(1)"></td>
-                    <td onclick="insertDie(2)"></td>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
                 </tr>
                 <tr>
-                    <td onclick="insertDie(0)"></td>
-                    <td onclick="insertDie(1)"></td>
-                    <td onclick="insertDie(2)"></td>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
                 </tr>
             </table>
         </div>
@@ -88,10 +88,14 @@
                 </div>
                 <div>
                     <h3>Player 2</h3>
-                    <h3>0</h3>
+                    <h3 id="p2-score">0</h3>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="btn-container">
+        <button id="start" onclick="start()">Start</button>
+    <button id="restart" onclick="restart()" hidden="true">Restart</button>
     </div>
 </body>
 </html>

@@ -40,4 +40,10 @@ td {
     border: 1px solid;
     height: 40px;
     width: 40px;
-  }
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+}
