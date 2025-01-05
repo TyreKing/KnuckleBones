@@ -52,6 +52,10 @@ function restart() {
     headers.forEach(header => {
         header.innerHTML = 0;
     });
+
+    hasRolled = false;
+    document.getElementById("p1-score").innerHTML = 0;
+    document.getElementById("p2-score").innerHTML = 0;
 }
 
 function clearDice(){
