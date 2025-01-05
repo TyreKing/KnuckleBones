@@ -3,12 +3,14 @@ let hasRolled = false;
 let p1Board = {
     "c0": [],
     "c1": [],
-    "c2": []
+    "c2": [],
+    "ct": 0
 };
 let p2Board = {
     "c0": [],
     "c1": [],
-    "c2": []
+    "c2": [],
+    "ct": 0
 };
 
 function start() {
@@ -36,12 +38,14 @@ function restart() {
     p1Board = {
         "c0": [],
         "c1": [],
-        "c2": []
+        "c2": [],
+        "ct": 0
     };
     p2Board = {
         "c0": [],
         "c1": [],
-        "c2": []
+        "c2": [],
+        "ct": 0
     };
 }
 
@@ -128,11 +132,13 @@ function insertDie(column) {
             }
         }
         turn = 1;
-        console.log(p1Board);
-        console.log(p2Board);
     }
     hasRolled = false;
-
+    console.log(p1Board);
+    console.log(p2Board);
+    updateColumn(p1Board.c0, p2Board.c0);
+    // updateColumn(p1Board.c1, p2Board);
+    // updateColumn(p1Board.c2, p2Board);
 
 }
 
@@ -140,11 +146,16 @@ function updateColumn(p1Column, p2Column) {
     const p1Table = document.querySelectorAll('table.p1-table tbody tr td');
     const p2Table = document.querySelectorAll('table.p2-table tbody tr td');
 
-    let c1 = [];
-    const counts = {};
-    for (const num of c1) {
-        counts[num] = counts[num] ? counts[num] + 1 : 1;
-      }
+    const p1Occurances = {};
+    for (const num of p1Column) {
+        p1Occurances[num] = p1Occurances[num] ? p1Occurances[num] + 1 : 1;
+    }
+
+    let p1Sum = 0;
+    for (const num of p1Column) {
+        p1Sum += parseInt(p1Column) * p1Occurances[num];
+    }    
+    console.log(p1Sum);
 
 }
 
