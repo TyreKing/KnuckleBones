@@ -69,7 +69,7 @@ function rollDie(player) {
     }
     if (isNum && turn == player) {
         const min = 1;
-        const max = 2;
+        const max = 6;
         
         const die = Math.floor(Math.random() * (max - min + 1)) + min;
         if ( player === 1) {
@@ -104,17 +104,17 @@ function insertDie(column) {
                     case 0:
                         p1Board.c0.push(dieNumber);
                         headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c0);
-                        removeFromBoard(column, dieNumber)
+                        removeFromBoard(column, dieNumber);
                         break;
                     case 1:
                         p1Board.c1.push(dieNumber);
                         headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c1);
-                        removeFromBoard(column, dieNumber)
+                        removeFromBoard(column, dieNumber);
                         break;
                     default:
                         p1Board.c2.push(dieNumber);
                         headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c2);
-                        removeFromBoard(column, dieNumber)
+                        removeFromBoard(column, dieNumber);
                         break;
                 }
                 currRow[column].innerHTML = dieNumber;
@@ -134,14 +134,17 @@ function insertDie(column) {
                     case 0:
                         p2Board.c0.push(dieNumber);
                         headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c0);
+                        removeFromBoard(column, dieNumber);
                         break;
                     case 1:
                         p2Board.c1.push(dieNumber);
                         headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c1);
+                        removeFromBoard(column, dieNumber);
                         break;
                     default:
                         p2Board.c2.push(dieNumber);
                         headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c2);
+                        removeFromBoard(column, dieNumber);
                         break;
                 }
                 currRow[column].innerHTML = dieNumber;
@@ -151,59 +154,140 @@ function insertDie(column) {
         turn = 1;
     }
     hasRolled = false;
+    const p1Score = setScore(document.querySelectorAll('table.p1-table tbody tr.headers th'), document.getElementById("p1-score"));
+    const p2Score = setScore(document.querySelectorAll('table.p2-table tbody tr.headers th'), document.getElementById("p2-score"));
+    if (GameStatus()) {
+        const winnerMessage = p1Score > p2Score ? 'Player 1 WINS \n Score: ' + p1Score : 'Player 2 WINS \n Score: ' + p2Score;
+        alert(winnerMessage);
+        turn = 0;
+    }
+}
+
+function setScore(headers, playerScoreElement) {
+   // const headers = document.querySelectorAll('table.p1-table tbody tr.headers th')
+    let score = 0;
+    headers.forEach(columnScore => {
+        score += parseInt(columnScore.innerHTML);
+    });
+    playerScoreElement.innerHTML = score;
+    return score;
+}
+
+function GameStatus() {
+    if (p1Board.c0.length === 3 && p1Board.c1.length === 3 && p1Board.c2.length === 3) {
+        return true;
+    }
+
+    if (p2Board.c0.length === 3 && p2Board.c1.length === 3 && p1Board.c2.length === 3) {
+        return true;
+    }
+
+    return false;
 }
 
 function removeFromBoard(column, dieNumber) {
     switch (column) {
         case 0:
-            if (p2Board.c0.includes(dieNumber)) {
-                const temp = p2Board.c0;
-                p2Board.c0 = temp.filter(item => item !== dieNumber);
-                document.querySelector('table.p2-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c0);
-                const p2Col = document.querySelectorAll('table.p2-table tbody tr:not(.headers) td.c0');
-                for (let index = 0; index < p2Col.length; index++) {
-                    if (p2Board.c0[index]) {
-                        p2Col[index].innerHTML = p2Board.c0[index];
-                        console.log(p2Col[index]);
-                    }
-                    else {
-                        p2Col[index].innerHTML = '';
+            if(turn === 1) {
+                if (p2Board.c0.includes(dieNumber)) {
+                    const temp = p2Board.c0;
+                    p2Board.c0 = temp.filter(item => item !== dieNumber);
+                    document.querySelector('table.p2-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c0);
+                    const p2Col = document.querySelectorAll('table.p2-table tbody tr:not(.headers) td.c0');
+                    for (let index = 0; index < p2Col.length; index++) {
+                        if (p2Board.c0[index]) {
+                            p2Col[index].innerHTML = p2Board.c0[index];
+                        }
+                        else {
+                            p2Col[index].innerHTML = '';
+                        }
                     }
                 }
             }
+            else {
+                if (p1Board.c0.includes(dieNumber)) {
+                    const temp = p1Board.c0;
+                    p1Board.c0 = temp.filter(item => item !== dieNumber);
+                    document.querySelector('table.p1-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c0);
+                    const p1Col = Array.from(document.querySelectorAll('table.p1-table tbody tr:not(.headers) td.c0')).reverse();
+                    for (let index = 0; index < p1Col.length; index++) {
+                        if (p1Board.c0[index]) {
+                            p1Col[index].innerHTML = p1Board.c0[index];
+                        }
+                        else {
+                            p1Col[index].innerHTML = '';
+                        }
+                    }
+                }
+            }
+            
         break;
 
         case 1:
-            if (p2Board.c1.includes(dieNumber)) {
-                const temp = p2Board.c1;
-                p2Board.c1 = temp.filter(item => item !== dieNumber);
-                document.querySelector('table.p2-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c1);
-                const p2Col = document.querySelectorAll('table.p2-table tbody tr:not(.headers) td.c1');
-                for (let index = 0; index < p2Col.length; index++) {
-                    if (p2Board.c1[index]) {
-                        p2Col[index].innerHTML = p2Board.c1[index];
-                        console.log(p2Col[index]);
+            if (turn === 1) {
+                if (p2Board.c1.includes(dieNumber)) {
+                    const temp = p2Board.c1;
+                    p2Board.c1 = temp.filter(item => item !== dieNumber);
+                    document.querySelector('table.p2-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c1);
+                    const p2Col = document.querySelectorAll('table.p2-table tbody tr:not(.headers) td.c1');
+                    for (let index = 0; index < p2Col.length; index++) {
+                        if (p2Board.c1[index]) {
+                            p2Col[index].innerHTML = p2Board.c1[index];
+                        }
+                        else {
+                            p2Col[index].innerHTML = '';
+                        }
                     }
-                    else {
-                        p2Col[index].innerHTML = '';
+                }
+            }
+            else {
+                if (p1Board.c1.includes(dieNumber)) {
+                    const temp = p1Board.c1;
+                    p1Board.c1 = temp.filter(item => item !== dieNumber);
+                    document.querySelector('table.p1-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c1);
+                    const p1Col = Array.from(document.querySelectorAll('table.p1-table tbody tr:not(.headers) td.c1')).reverse();
+                    for (let index = 0; index < p1Col.length; index++) {
+                        if (p1Board.c1[index]) {
+                            p1Col[index].innerHTML = p1Board.c1[index];
+                        }
+                        else {
+                            p1Col[index].innerHTML = '';
+                        }
                     }
                 }
             }
         break;
 
         default:
-            if (p2Board.c2.includes(dieNumber)) {
-                const temp = p2Board.c2;
-                p2Board.c2 = temp.filter(item => item !== dieNumber);
-                document.querySelector('table.p2-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c2);
-                const p2Col = document.querySelectorAll('table.p2-table tbody tr:not(.headers) td.c2');
-                for (let index = 0; index < p2Col.length; index++) {
-                    if (p2Board.c2[index]) {
-                        p2Col[index].innerHTML = p2Board.c2[index];
-                        console.log(p2Col[index]);
+            if (turn === 1) {
+                if (p2Board.c2.includes(dieNumber)) {
+                    const temp = p2Board.c2;
+                    p2Board.c2 = temp.filter(item => item !== dieNumber);
+                    document.querySelector('table.p2-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c2);
+                    const p2Col = document.querySelectorAll('table.p2-table tbody tr:not(.headers) td.c2');
+                    for (let index = 0; index < p2Col.length; index++) {
+                        if (p2Board.c2[index]) {
+                            p2Col[index].innerHTML = p2Board.c2[index];
+                        }
+                        else {
+                            p2Col[index].innerHTML = '';
+                        }
                     }
-                    else {
-                        p2Col[index].innerHTML = '';
+                }
+            }
+            else {
+                if (p1Board.c2.includes(dieNumber)) {
+                    const temp = p1Board.c2;
+                    p1Board.c2 = temp.filter(item => item !== dieNumber);
+                    document.querySelector('table.p1-table tbody tr.headers').getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c2);
+                    const p1Col = Array.from(document.querySelectorAll('table.p1-table tbody tr:not(.headers) td.c2')).reverse();
+                    for (let index = 0; index < p1Col.length; index++) {
+                        if (p1Board.c2[index]) {
+                            p1Col[index].innerHTML = p1Board.c2[index];
+                        }
+                        else {
+                            p1Col[index].innerHTML = '';
+                        }
                     }
                 }
             }
