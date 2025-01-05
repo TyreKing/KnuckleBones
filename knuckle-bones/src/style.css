@@ -1,0 +1,35 @@
+body {
+    background-color: rgb(0, 0, 4);
+    color: white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1 {
+    margin: auto;
+    width: 50%;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.instructions{
+    margin: auto;
+    padding-top: 30px;
+    width: 50%;
+}
+
+li {
+    padding-bottom: 10px;
+}
+
+.board, #p1-board, #p2-board {
+    display: flex;
+}
+
+.board {
+    justify-content: space-evenly;
+    padding-top: 50px;
+}
+
+td {
+    border: 1px solid;
+  }
