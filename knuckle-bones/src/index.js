@@ -47,6 +47,11 @@ function restart() {
         "c2": [],
         "ct": 0
     };
+
+    let headers = document.querySelectorAll('table tbody tr.headers th');
+    headers.forEach(header => {
+        header.innerHTML = 0;
+    });
 }
 
 function clearDice(){
@@ -94,18 +99,23 @@ function insertDie(column) {
         for (let row = 2; row >=0; row--) {
            const currRow =  table[row].getElementsByTagName('td')
             if (!currRow[column].innerHTML) {
+                let headers = document.querySelector('table.p1-table tbody tr.headers');
                 switch(column) {
                     case 0:
                         p1Board.c0.push(dieNumber);
+                        headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c0);
                         break;
                     case 1:
                         p1Board.c1.push(dieNumber);
+                        headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c1);
                         break;
                     default:
                         p1Board.c2.push(dieNumber);
+                        headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p1Board.c2);
                         break;
                 }
                 currRow[column].innerHTML = dieNumber;
+                
                 break;
             }
         }
@@ -116,15 +126,19 @@ function insertDie(column) {
         for (let row = 1; row <= 3; row++) {
            const currRow =  table[row].getElementsByTagName('td')
             if (!currRow[column].innerHTML) {
+                let headers = document.querySelector('table.p2-table tbody tr.headers');
                 switch(column) {
                     case 0:
                         p2Board.c0.push(dieNumber);
+                        headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c0);
                         break;
                     case 1:
                         p2Board.c1.push(dieNumber);
+                        headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c1);
                         break;
                     default:
                         p2Board.c2.push(dieNumber);
+                        headers.getElementsByTagName("th")[column].innerHTML = getColumnSum(p2Board.c2);
                         break;
                 }
                 currRow[column].innerHTML = dieNumber;
@@ -134,30 +148,22 @@ function insertDie(column) {
         turn = 1;
     }
     hasRolled = false;
-    console.log(p1Board);
-    console.log(p2Board);
-    updateColumn(p1Board.c0, p2Board.c0);
-    // updateColumn(p1Board.c1, p2Board);
-    // updateColumn(p1Board.c2, p2Board);
-
 }
 
-function updateColumn(p1Column, p2Column) {
-    const p1Table = document.querySelectorAll('table.p1-table tbody tr td');
-    const p2Table = document.querySelectorAll('table.p2-table tbody tr td');
-
+function getColumnSum(column) {
     const p1Occurances = {};
-    for (const num of p1Column) {
+    for (const num of column) {
         p1Occurances[num] = p1Occurances[num] ? p1Occurances[num] + 1 : 1;
     }
 
     let p1Sum = 0;
-    for (const num of p1Column) {
-        p1Sum += parseInt(p1Column) * p1Occurances[num];
-    }    
-    console.log(p1Sum);
+    for (const num of column) {
+        p1Sum += num * p1Occurances[num];
+    }
 
+    return p1Sum;
 }
+
 
 function getDie() {
     if (turn == 1){
