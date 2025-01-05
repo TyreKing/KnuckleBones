@@ -1,4 +1,4 @@
-let turn = 2;
+let turn = 1;
 
 function rollDie(player) {
 
@@ -30,6 +30,7 @@ function insertDie(column) {
                 break;
             }
         }
+        turn = 2;
     }
     else {
         const table = document.querySelectorAll("table.p2-table tbody tr");
@@ -40,11 +41,10 @@ function insertDie(column) {
                 break;
             }
         }
+        turn = 1;
     }
 }
 
-function getColumn() {
-}
 
 function getDie() {
     if (turn == 1){
