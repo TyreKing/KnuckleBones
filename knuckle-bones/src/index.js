@@ -96,6 +96,7 @@ function insertDie(column) {
     const dieNumber = getDie().innerHTML;
     if (turn === 1) {
         const table = document.querySelectorAll('table.p1-table tbody tr');
+        let turnTaken = false;
         for (let row = 2; row >=0; row--) {
            const currRow =  table[row].getElementsByTagName('td')
             if (!currRow[column].innerHTML) {
@@ -118,14 +119,21 @@ function insertDie(column) {
                         break;
                 }
                 currRow[column].innerHTML = dieNumber;
-                
+                turnTaken = true;
                 break;
             }
         }
-        turn = 2;
+        if (!turnTaken) {
+            alert("Column is full. \n Select a different column.");
+        }
+        else {
+            turn = 2;
+            hasRolled = false;
+        }
     }
     else if (turn === 2) {
         const table = document.querySelectorAll('table.p2-table tbody tr');
+        let turnTaken = false;
         for (let row = 1; row <= 3; row++) {
            const currRow =  table[row].getElementsByTagName('td')
             if (!currRow[column].innerHTML) {
@@ -148,12 +156,18 @@ function insertDie(column) {
                         break;
                 }
                 currRow[column].innerHTML = dieNumber;
+                turnTaken = true;
                 break;
             }
         }
-        turn = 1;
+        if (!turnTaken) {
+            alert("Column is full. \n Select a different column.");
+        }
+        else {
+            turn = 1;
+            hasRolled = false;
+        }
     }
-    hasRolled = false;
     const p1Score = setScore(document.querySelectorAll('table.p1-table tbody tr.headers th'), document.getElementById("p1-score"));
     const p2Score = setScore(document.querySelectorAll('table.p2-table tbody tr.headers th'), document.getElementById("p2-score"));
     if (GameStatus()) {
