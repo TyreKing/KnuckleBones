@@ -196,7 +196,7 @@ function GameStatus() {
         return true;
     }
 
-    if (p2Board.c0.length === 3 && p2Board.c1.length === 3 && p1Board.c2.length === 3) {
+    if (p2Board.c0.length === 3 && p2Board.c1.length === 3 && p2Board.c2.length === 3) {
         return true;
     }
 
