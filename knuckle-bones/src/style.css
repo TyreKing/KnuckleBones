@@ -4,11 +4,19 @@ body {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-h1 {
+h1, #turn {
     margin: auto;
     width: 50%;
     padding-top: 10px;
     text-align: center;
+}
+
+#p1-name {
+    color: rgb(222, 1, 1);
+}
+
+#p2-name {
+    color: rgb(1, 178, 222);
 }
 
 .instructions{
@@ -21,8 +29,26 @@ li {
     padding-bottom: 10px;
 }
 
+.board {
+    margin: auto;
+}
+
 .board, #p1-board, #p2-board {
     display: flex;
+    max-width: 1500px;
+}
+
+#p1-board {
+    text-align: right;
+}
+
+.p1-board > .user {
+    margin-top: 0;
+}
+
+#p2-board {
+    text-align: left;
+    align-self: flex-end;
 }
 
 .board {
@@ -53,7 +79,24 @@ td {
     justify-content: space-between;
 }
 
+#p2-score, #p1-score {
+    padding-left: 20px;
+}
+
 button {
     width: 70px;
     height: 50px;
 }
+
+.bounce {
+    animation: bounce 2s ease infinite;
+  }
+  @keyframes bounce {
+      70% { transform:translateY(0%); }
+      80% { transform:translateY(-25%); }
+      90% { transform:translateY(0%); }
+      95% { transform:translateY(-7%); }
+      97% { transform:translateY(0%); }
+      99% { transform:translateY(-3%); }
+      100% { transform:translateY(0); }
+  }

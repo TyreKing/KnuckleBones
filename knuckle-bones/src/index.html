@@ -21,18 +21,18 @@
             <li>The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.</li>
         </Ul>
     </div>
+    <h2 id="turn"></h2>
     <div class="board">
         <div id="p1-board">
             <div class="user">
                 <div>
-                    <h3>Player 1</h3>
+                    <h3 id="p1-name">Player 1</h3>
                     <div class="score">
-                        <h4>Score:</h4>
-                        <h3 id="p1-score">0</h3>
+                        <h2>Score:</h2>
+                        <h2 id="p1-score">0</h2>
                     </div>
                 </div>
                 <div class="display">
-                    <h2>DICE</h2>
                     <button onclick="rollDie(1)">Roll</button>
                 </div>
             </div>
@@ -86,14 +86,13 @@
         <div id="p2-board">
             <div class="user">
                 <div class="display">
-                    <h2>DICE</h2>
                     <button onclick="rollDie(2)">Roll</button>
                 </div>
                 <div>
-                    <h3>Player 2</h3>
+                    <h3 id="p2-name">Player 2</h3>
                     <div class="score">
-                        <h4>Score:</h4>
-                        <h3 id="p2-score">0</h3>
+                        <h2 >Score:</h2>
+                        <h2 id="p2-score">0</h2>
                     </div>
                 </div>
             </div>

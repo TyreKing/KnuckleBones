@@ -13,6 +13,7 @@ let p2Board = {
     "ct": 0
 };
 
+
 function start() {
     turn = 1;
     const startBtn = document.getElementById('start');
@@ -20,6 +21,10 @@ function start() {
 
     const restartBtn = document.getElementById('restart');
     restartBtn.hidden = false;
+    
+    let turnDisplay = document.getElementById('turn');
+    turnDisplay.innerHTML = "Player 1 Turn";
+    turnDisplay.style.color = 'rgb(222, 1, 1)';
 }
 
 function restart() {
@@ -56,6 +61,8 @@ function restart() {
     hasRolled = false;
     document.getElementById("p1-score").innerHTML = 0;
     document.getElementById("p2-score").innerHTML = 0;
+
+    document.getElementById('turn').innerHTML = ""
 }
 
 function clearDice(){
@@ -79,10 +86,12 @@ function rollDie(player) {
         if ( player === 1) {
             let element = getDie();
             element.innerHTML = die;
+            element.classList.add('bounce');
         }
         else {
             let element = getDie();
             element.innerHTML = die;
+            element.classList.add('bounce');
         }
         hasRolled = true
     }
@@ -97,7 +106,9 @@ function insertDie(column) {
         alert('You must roll first.');
         return;
     }
-    const dieNumber = getDie().innerHTML;
+    const die = getDie();
+    die.classList.remove('bounce');
+    const dieNumber = die.innerHTML;
     if (turn === 1) {
         const table = document.querySelectorAll('table.p1-table tbody tr');
         let turnTaken = false;
@@ -133,6 +144,10 @@ function insertDie(column) {
         else {
             turn = 2;
             hasRolled = false;
+            let turnDisplay = document.getElementById('turn');
+            turnDisplay.innerHTML = "Player 2 Turn"
+            turnDisplay.style.color = 'rgb(1, 178, 222)';
+            
         }
     }
     else if (turn === 2) {
@@ -170,13 +185,26 @@ function insertDie(column) {
         else {
             turn = 1;
             hasRolled = false;
+            let turnDisplay = document.getElementById('turn');
+            turnDisplay.innerHTML = "Player 1 Turn";
+            turnDisplay.style.color = 'rgb(222, 1, 1)';
         }
     }
     const p1Score = setScore(document.querySelectorAll('table.p1-table tbody tr.headers th'), document.getElementById("p1-score"));
     const p2Score = setScore(document.querySelectorAll('table.p2-table tbody tr.headers th'), document.getElementById("p2-score"));
     if (GameStatus()) {
+        if (p1Score === p2Score) {
+            const winnerMessage = 'Tie Game!';
+            let turnDisplay = document.getElementById('turn');
+            turnDisplay.innerHTML = winnerMessage;
+            turnDisplay.style.color = 'rgb(235, 219, 4)';
+            turn = 0;
+        }
+
         const winnerMessage = p1Score > p2Score ? 'Player 1 WINS \n Score: ' + p1Score : 'Player 2 WINS \n Score: ' + p2Score;
-        alert(winnerMessage);
+        let turnDisplay = document.getElementById('turn');
+        turnDisplay.innerHTML = winnerMessage;
+        turnDisplay.style.color = p1Score > p2Score ?'rgb(222, 1, 1)' : 'rgb(1, 178, 222)';
         turn = 0;
     }
 }
@@ -331,10 +359,10 @@ function getColumnSum(column) {
 
 function getDie() {
     if (turn == 1){
-        return document.getElementById('p1-board').getElementsByTagName('h2')[0];
+        return document.getElementById('p1-board').getElementsByTagName('button')[0];
     }
     
-    return document.getElementById('p2-board').getElementsByTagName('h2')[0];
+    return document.getElementById('p2-board').getElementsByTagName('button')[0];
 }
 
 function isInt(value) {
