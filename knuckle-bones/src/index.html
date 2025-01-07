@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knuckle Bones</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <h1>Knuckle Bones</h1>
+    <div class="instructions">
+        <h2>
+            How to play:
+        </h2>
+        <Ul>
+            <li>The game consists of two 3x3 boards, each belonging to their respective player.</li>
+            <li>The players take turns. On a player's turn, they roll a single 6-sided die, and must place it in a column on their board. A filled column does not accept any more dice.</li>
+            <li>Each player has a score, which is the sum of all the dice values on their board. The score awarded by each column is also displayed.</li>
+            <li>If a player places multiple dice of the same value in the same column, the score awarded for each of those dice is multiplied by the number of dice of the same value in that column. e.g. if a column contains 4-1-4, then the score for that column is 4x2 + 1x1 + 4x2 = 17</li>
+            <li>When a player places a die, all dice of the same value in the corresponding column of the opponent's board gets destroyed. Players can use this mechanic to destroy their opponent's high-scoring combos.</li>
+            <li>The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.</li>
+        </Ul>
+    </div>
+    <h2 id="turn"></h2>
+    <div class="board">
+        <div id="p1-board">
+            <div class="user">
+                <div>
+                    <h3 id="p1-name">Player 1</h3>
+                    <div class="score">
+                        <h2>Score:</h2>
+                        <h2 id="p1-score">0</h2>
+                    </div>
+                </div>
+                <div class="display">
+                    <button onclick="rollDie(1)">Roll</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="p1-table">
+                <tr>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
+                </tr>
+                <tr>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
+                </tr>
+                <tr>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
+                </tr>
+                <tr class="headers">
+                    <th>0</th>
+                    <th>0</th>
+                    <th>0</th>
+                </tr>
+            </table>
+            <table class="p2-table">
+                <tr class="headers">
+                    <th>0</th>
+                    <th>0</th>
+                    <th>0</th>
+                </tr>
+                <tr>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
+                </tr>
+                <tr>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
+                </tr>
+                <tr>
+                    <td class="c0" onclick="insertDie(0)"></td>
+                    <td class="c1" onclick="insertDie(1)"></td>
+                    <td class="c2" onclick="insertDie(2)"></td>
+                </tr>
+            </table>
+        </div>
+        <div id="p2-board">
+            <div class="user">
+                <div class="display">
+                    <button onclick="rollDie(2)">Roll</button>
+                </div>
+                <div>
+                    <h3 id="p2-name">Player 2</h3>
+                    <div class="score">
+                        <h2 >Score:</h2>
+                        <h2 id="p2-score">0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btn-container">
+        <button id="start" onclick="start()">Start</button>
+    <button id="restart" onclick="restart()" hidden="true">Restart</button>
+    </div>
+</body>
+</html>
