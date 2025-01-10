@@ -29,7 +29,7 @@ li {
     padding-bottom: 10px;
 }
 
-.board {
+.board{
     margin: auto;
 }
 
@@ -81,6 +81,25 @@ td {
 
 #p2-score, #p1-score {
     padding-left: 20px;
+}
+
+.mult-form {
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+    align-items: center;
+    align-content: space-evenly;
+}
+
+#username, #code {
+    margin-bottom: 20px;
 }
 
 button {

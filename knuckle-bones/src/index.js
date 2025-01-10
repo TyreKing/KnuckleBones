@@ -13,6 +13,77 @@ let p2Board = {
     "ct": 0
 };
 
+window.addEventListener('load', function() {
+    // Your JavaScript code here
+    console.log("Page has fully loaded!");
+    const code = document.getElementById("code");
+
+    code.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, "");
+    };
+    const username = document.getElementById("username");
+    username.oninput = function() {
+        this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, "");
+    };
+  });
+
+  //TODO find a better way to connect to the server
+  // Initialize WebSocket connection
+const socket = new WebSocket("ws://localhost:5000/ws/");
+
+
+socket.addEventListener("open", () => {
+    console.log("WebSocket connection established.");
+    // Optionally update UI to indicate connection is ready
+});
+
+socket.addEventListener("message", (event) => {
+    console.log("Message from server:", event.data);   
+});
+
+socket.addEventListener("close", () => {
+    console.log("WebSocket connection closed.");
+    // Optionally update UI to indicate disconnection
+});
+
+socket.addEventListener("error", (error) => {
+    console.error("WebSocket error:", error);
+    // Optionally handle error scenarios
+});
+
+function createSession() {
+    console.log("Function called!");
+    const code = document.getElementById("code");
+    const username = document.getElementById("username");
+
+    //Validate code and username
+    if (socket.readyState === WebSocket.OPEN) {
+        console.log("Sending message:", JSON.stringify({code: code.value}));
+        socket.send(JSON.stringify({
+            username: username.value,
+            code: code.value
+        }));
+    } else {
+        console.error("WebSocket is not open.");
+    }
+    return false; // Prevent form from submitting and refreshing the page
+  }
+
+  // Display messages in the UI
+function displayMessage(message) {
+    alert(message) // Scroll to the latest message
+}
+
+function toggle() {
+    const toggleButton = document.getElementById("toggleButton");
+    const content = document.getElementById("collapsibleContent");
+
+    if (content.hidden === false) {
+        content.hidden = true;
+    } else {
+        content.hidden = false;
+    }
+}
 
 function start() {
     turn = 1;
