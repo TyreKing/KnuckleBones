@@ -1,0 +1,6 @@
+@KnuckleBonesServer_HostAddress = http://localhost:5228
+
+GET {{KnuckleBonesServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
