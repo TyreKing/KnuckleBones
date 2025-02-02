@@ -53,18 +53,79 @@ namespace KnuckleBonesServer.Services
             var die = rand.Next(1, 7);
             if (game.Host.Id == player.Id && game.IsHostTurn)
             {
-                game.Host.Die = die;
+                game.Die = die;
                 return game.Host;
             }
 
             if (game.Challenger.Id == player.Id && !game.IsHostTurn)
             {
-                game.Challenger.Die = die;
+                game.Die = die;
                 return game.Challenger;
             }
 
             return null;
         }
+
+        public Game? PlaceDie(Player player, string code, int columnIndex)
+        {
+            var game = _games.FirstOrDefault(x => x.Key == code).Value;
+            if (game == null)
+            {
+                return null;
+            }
+            if (game.IsHostTurn && game.Host.Id == player.Id)
+            {
+                if (columnIndex < 3 && columnIndex >= 0)
+                {
+                    game.HostBoard.Columns[columnIndex] = CalculateColumn(game.HostBoard.Columns[columnIndex], game.Die);
+                    //TODO remove die from challenger board
+                }
+            }
+            else if (!game.IsHostTurn && game.Challenger.Id == player.Id)
+            {
+                game.ChallengerBoard.Columns[columnIndex] = CalculateColumn(game.ChallengerBoard.Columns[columnIndex], game.Die);
+            }
+
+            return game;
+        }
+
+        private Column DeductDie(Column column, int die)
+        {
+            var deductedColumn = new int[3];
+            for (int i = 0; i < column.Cells.Length; i++)
+            {
+                if (column.Cells[i].HasValue)
+                if (column.Cells[i] == die)
+                {
+                    column.Cells[i] = null;
+                }
+            }
+
+            column.Total = SetTotal(column);
+            return column;
+        }
+
+        private Column CalculateColumn(Column column, int die)
+        {
+            for (int i = 0; i < column.Cells.Length; i++)
+            {
+                if (column.Cells[i] == null)
+                {
+                    column.Cells[i] = die;
+                    break;
+                }
+            }
+
+            column.Total = SetTotal(column);
+            return column;
+        }
+
+        private int SetTotal(Column column)
+        {
+            return column.Cells.Where(x => x.HasValue)?.Sum() ?? 0;
+        }
+
+
 
     }
 }
