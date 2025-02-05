@@ -19,7 +19,7 @@ namespace KnuckleBonesServer.Models
     public class Column
     {
         public int Total = 0;
-        public int?[] Cells {  get; set; } = [ null, null, null ];
+        public List<int> Cells {  get; set; } = new List<int>();
 
     }
 

@@ -1,5 +1,4 @@
 ﻿using KnuckleBonesServer.Models;
-using Microsoft.Extensions.Hosting;
 
 namespace KnuckleBonesServer.Services
 {
@@ -41,7 +40,7 @@ namespace KnuckleBonesServer.Services
             return game;
         }
 
-        public Player? GetDie(Player player, string code)
+        public Game? GetDie(Player player, string code)
         {
             var game = _games.FirstOrDefault(x => x.Key == code).Value;
             if (game == null)
@@ -54,16 +53,14 @@ namespace KnuckleBonesServer.Services
             if (game.Host.Id == player.Id && game.IsHostTurn)
             {
                 game.Die = die;
-                return game.Host;
             }
 
             if (game.Challenger.Id == player.Id && !game.IsHostTurn)
             {
                 game.Die = die;
-                return game.Challenger;
             }
 
-            return null;
+            return game;
         }
 
         public Game? PlaceDie(Player player, string code, int columnIndex)
@@ -78,12 +75,14 @@ namespace KnuckleBonesServer.Services
                 if (columnIndex < 3 && columnIndex >= 0)
                 {
                     game.HostBoard.Columns[columnIndex] = CalculateColumn(game.HostBoard.Columns[columnIndex], game.Die);
-                    //TODO remove die from challenger board
+                    game.ChallengerBoard.Columns[columnIndex] = DeductDie(game.ChallengerBoard.Columns[columnIndex], game.Die);
                 }
             }
             else if (!game.IsHostTurn && game.Challenger.Id == player.Id)
             {
                 game.ChallengerBoard.Columns[columnIndex] = CalculateColumn(game.ChallengerBoard.Columns[columnIndex], game.Die);
+                game.HostBoard.Columns[columnIndex] = DeductDie(game.HostBoard.Columns[columnIndex], game.Die);
+
             }
 
             return game;
@@ -91,41 +90,24 @@ namespace KnuckleBonesServer.Services
 
         private Column DeductDie(Column column, int die)
         {
-            var deductedColumn = new int[3];
-            for (int i = 0; i < column.Cells.Length; i++)
+            var deductedColumn = new Column()
             {
-                if (column.Cells[i].HasValue)
-                if (column.Cells[i] == die)
-                {
-                    column.Cells[i] = null;
-                }
-            }
+                Cells = column.Cells.Where(x => x != die).ToList(),
+                Total = column.Cells.Where(x => x != die).Sum()
+            };
 
-            column.Total = SetTotal(column);
-            return column;
+            return deductedColumn;
         }
 
         private Column CalculateColumn(Column column, int die)
         {
-            for (int i = 0; i < column.Cells.Length; i++)
+            if (column.Cells.Count < 3)
             {
-                if (column.Cells[i] == null)
-                {
-                    column.Cells[i] = die;
-                    break;
-                }
+                column.Cells.Add(die);
             }
 
-            column.Total = SetTotal(column);
+            column.Total = column.Cells.Sum();
             return column;
         }
-
-        private int SetTotal(Column column)
-        {
-            return column.Cells.Where(x => x.HasValue)?.Sum() ?? 0;
-        }
-
-
-
     }
 }

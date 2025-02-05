@@ -28,7 +28,7 @@ public class WebSocketController : ControllerBase
     }
 
     [HttpPost("game/roll")]
-    public async Task<Player?> RollDie(GameRequest rollDieRequest)
+    public async Task<Game?> RollDie(GameRequest rollDieRequest)
     {
         return _gameService.GetDie(rollDieRequest.Player, rollDieRequest.Code);
     }
