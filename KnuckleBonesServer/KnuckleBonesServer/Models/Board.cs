@@ -5,6 +5,7 @@ namespace KnuckleBonesServer.Models
     public class Board
     {
         public Dictionary<int, Column> Columns { get; set; } = [];
+        public int Total {  get; set; }
 
         public Board() 
         {
@@ -14,6 +15,11 @@ namespace KnuckleBonesServer.Models
                 Columns.Add(i, new Column());
             }
         }
+    }
+
+    public enum GameWinner
+    {
+       Tie, Player1, Player2, None
     }
 
     public class Column
@@ -39,6 +45,7 @@ namespace KnuckleBonesServer.Models
         public Player Challenger { get; set; }
         public int Die { get; set; }
         public bool IsHostTurn { get; set; } = true;
+        public GameWinner Winner { get; set; } = GameWinner.None; 
 
         public Game(string code, Player host)
         {

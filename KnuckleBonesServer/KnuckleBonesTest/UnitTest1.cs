@@ -43,5 +43,39 @@ namespace KnuckleBonesTest
             var game = _gameService.PlaceDie(_hostPlayer, CODE, columnIndx);
             Assert.True(game.HostBoard.Columns[columnIndx].Cells.Contains(die));
         }
+
+
+        [Test]
+        public void GameOverIsTrue()
+        {
+            Game game = new Game(CODE, _hostPlayer)
+            {
+                Id = Guid.NewGuid(),
+                HostBoard = new Board(),
+                ChallengerBoard = new Board()
+            };
+
+            game.HostBoard.Columns[0].Cells = new List<int> { 0, 1, 2 };
+            game.HostBoard.Columns[1].Cells = new List<int> { 0, 1, 2 };
+            game.HostBoard.Columns[2].Cells = new List<int> { 0, 1, 2 };
+
+            Assert.IsTrue(_gameService.IsGameOver(game).Value);
+        }
+
+        [Test]
+        public void CalculateColumn()
+        {
+           var column = _gameService.CalculateColumn(new Column { Cells = new List<int> { 1, 9 } }, 9);
+            Assert.That(column.Total, Is.EqualTo(37));
+        }
+
+        [Test]
+        public void DeductDie()
+        {
+            var column = _gameService.CalculateColumn(new Column { Cells = new List<int> { 1, 9 } }, 9);
+            column =_gameService.DeductDie(column, 9);
+            Assert.That(column.Total, Is.EqualTo(1));
+
+        }
     }
 }

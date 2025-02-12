@@ -26,7 +26,7 @@ namespace KnuckleBonesServer.Services
             }
 
             return game;
-            
+
         }
 
         public Game? JoinGame(Player player, string code)
@@ -34,7 +34,7 @@ namespace KnuckleBonesServer.Services
             var game = _games.FirstOrDefault(x => x.Key == code).Value;
             if (game == null)
             {
-               return null;
+                return null;
             }
             game.Challenger = player;
             return game;
@@ -85,28 +85,67 @@ namespace KnuckleBonesServer.Services
 
             }
 
+            var winner = GameStatus(game);
+            return winner ?? game;
+        }
+
+        public Game? GameStatus(Game game)
+        {
+            if (game.HostBoard.Columns.SelectMany(x => x.Value.Cells).Count() == 9
+                || game.ChallengerBoard.Columns.SelectMany(x => x.Value.Cells).Count() == 9)
+            {
+                if (game.HostBoard.Total > game.ChallengerBoard.Total)
+                {
+                    game.Winner = GameWinner.Player1;
+                }
+                else if (game.HostBoard.Total < game.ChallengerBoard.Total)
+                {
+                    game.Winner = GameWinner.Player2;
+                }
+                else if (game.HostBoard.Total == game.ChallengerBoard.Total)
+                {
+                    game.Winner = GameWinner.Tie;
+                }
+                else
+                {
+                    game.Winner = GameWinner.None;
+                }
+            }
             return game;
         }
 
-        private Column DeductDie(Column column, int die)
+        public Column DeductDie(Column column, int die)
         {
-            var deductedColumn = new Column()
+            var deductedColumn = column.Cells.Where(x => x != die).ToList();
+            int total = 0;
+            for (int i = 0; i < deductedColumn.Count; i++)
             {
-                Cells = column.Cells.Where(x => x != die).ToList(),
-                Total = column.Cells.Where(x => x != die).Sum()
-            };
+                var occurrences = deductedColumn.Where(x => x == deductedColumn[i]).Count();
+                total += deductedColumn[i] * occurrences;
+            }
 
-            return deductedColumn;
+            return new Column()
+            {
+                Cells = deductedColumn,
+                Total = total
+            };
         }
 
-        private Column CalculateColumn(Column column, int die)
+        public Column CalculateColumn(Column column, int die)
         {
             if (column.Cells.Count < 3)
             {
                 column.Cells.Add(die);
             }
 
-            column.Total = column.Cells.Sum();
+            int total = 0;
+            for (int i = 0; i < column.Cells.Count; i++)
+            {
+                var occurrences = column.Cells.Where(x => x == column.Cells[i]).Count();
+                total += column.Cells[i] * occurrences;
+            }
+
+            column.Total = total;
             return column;
         }
     }
