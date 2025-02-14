@@ -13,6 +13,7 @@ let p2Board = {
     "ct": 0
 };
 
+//TODO: Create a listener for socket creation
 window.addEventListener('load', function() {
     // Your JavaScript code here
     console.log("Page has fully loaded!");
