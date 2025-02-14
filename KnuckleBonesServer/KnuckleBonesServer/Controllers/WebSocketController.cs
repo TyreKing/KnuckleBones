@@ -9,6 +9,7 @@ namespace KnuckleBonesServer.Controllers;
 [Route("[controller]")]
 public class WebSocketController : ControllerBase
 {
+    //TODO: These endpoints were used to for testing. They need to be removed in the future.
     private GameService _gameService;
     public WebSocketController(GameService gameService)
     {
@@ -32,6 +33,9 @@ public class WebSocketController : ControllerBase
     {
         return _gameService.GetDie(rollDieRequest.Player, rollDieRequest.Code);
     }
+
+
+    //TODO: This is where the server will begin
 
     //[Route("/ws")]
     //public async Task Get()
